@@ -10,7 +10,7 @@ class ProductControl extends StatelessWidget {
     // TODO: implement build
     return RaisedButton(
       onPressed: () {
-        addProduct('Logomuz');
+        addProduct({'title': 'Çikolata', 'image': 'assets/images/helal.png'});
       },
       child: Text('Yeni Ekle'),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './pages/auth.dart';
+//import './pages/auth.dart';
 import './pages/products_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
@@ -40,7 +40,8 @@ class _MyAppState extends State<MyApp> {
       ),
       //home: AuthPage(), eğer routes kullanılır ve '/' eklenirse bununla aynı şey oluyor ikisi birlikte kullanılamaz.
       routes: {
-        '/': (BuildContext context) => ProductsPage(_products, _addProduct, _deleteProduct),
+        '/': (BuildContext context) =>
+            ProductsPage(_products, _addProduct, _deleteProduct),
         '/admin': (BuildContext context) => ProductsAdminPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
@@ -53,11 +54,19 @@ class _MyAppState extends State<MyApp> {
 
         if (pathElements[1] == 'product') {
           final int index = int.parse(pathElements[2]); // "/product/3255"
-          return MaterialPageRoute<bool>(builder: (BuildContext context) {
-            return ProductPage(
-                _products[index]['title'], _products[index]['image']);
-          });
+          return MaterialPageRoute<bool>(
+            builder: (BuildContext context) => ProductPage(
+                _products[index]['title'], _products[index]['image']),
+          );
         }
+
+        return null; //eğer parametresi yada yolu yanlış birşey gelirse null döndürecek
+      },
+      onUnknownRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+          builder: (BuildContext context) =>
+              ProductsPage(_products, _addProduct, _deleteProduct),
+        );
       },
     );
   }

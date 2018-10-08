@@ -4,7 +4,18 @@ class ProductCreatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Ürün Oluştur'),
+      child: RaisedButton(
+        child: Text('Kaydet'),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Center(
+                  child: Text('Ürün Oluştu'),
+                );
+              });
+        },
+      ),
     );
   }
 }

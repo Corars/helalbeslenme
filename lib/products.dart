@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 //import './pages/product.dart';
 
+/// Ürünlerin listesi olması için eklendi aynı zamanda sınıf dokümantasyonu için.
+/// Örnek Kod:
+/// ```dart
+///     Products(
+///       List<Map<String, String>> products,
+///       Function deleteProduct,
+///     )
+/// ```
 class Products extends StatelessWidget {
   final List<Map<String, String>> products;
   final Function deleteProduct;

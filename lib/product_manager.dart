@@ -47,6 +47,7 @@ class ProductManager extends StatelessWidget {
   final Function addProduct;
   final Function deleteProduct;
 
+  ///bunları veriyoruz çünkü [Products] bunu istiyor.
   ProductManager(this.products, this.addProduct, this.deleteProduct);
 
   @override

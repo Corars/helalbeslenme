@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './products.dart';
+//import './products.dart';
 import './product_create.dart';
 import './product_list.dart';
 
@@ -21,12 +21,7 @@ class ProductsAdminPage extends StatelessWidget {
                 ListTile(
                   title: Text('Tüm Ürünler'),
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => ProductsPage(),
-                      ),
-                    );
+                    Navigator.pushReplacementNamed(context, '/');
                   },
                 ),
               ],

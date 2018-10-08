@@ -21,12 +21,12 @@ class Products extends StatelessWidget {
                 color: Colors.blue,
                 textColor: Colors.white,
                 child: Text('Detay'),
-                onPressed: () => Navigator.push<bool>(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => ProductPage(
-                            products[index]['title'], products[index]['image']),
-                      ),
+                onPressed: () => Navigator.pushNamed<bool>(
+                      context, '/product/' + index.toString()
+                      // MaterialPageRoute(
+                      //   builder: (BuildContext context) => ProductPage(
+                      //       products[index]['title'], products[index]['image']),
+                      // ),
                     ).then((bool value) {
                       if (value) {
                         deleteProduct(index);

@@ -1,3 +1,10 @@
 {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "mongoRunner": {
+        "connection": {
+            "url": "213.159.7.191:27017",
+            "activeOnStartUp": true,
+            "user": "med",
+        }
+    }
 }

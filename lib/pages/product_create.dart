@@ -13,8 +13,10 @@ class ProductCreatePage extends StatefulWidget {
 
 class _ProductCreateState extends State<ProductCreatePage> {
   String _titleValue;
+  String _subTitleValue;
   String _description;
   double _priceValue;
+  String _imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,15 @@ class _ProductCreateState extends State<ProductCreatePage> {
             onChanged: (String value) {
               setState(() {
                 _titleValue = value;
+              });
+            },
+          ),
+          TextField(
+            autofocus: true,
+            decoration: InputDecoration(labelText: 'Product Sub Title'),
+            onChanged: (String value) {
+              setState(() {
+                _subTitleValue = value;
               });
             },
           ),
@@ -59,6 +70,7 @@ class _ProductCreateState extends State<ProductCreatePage> {
             onPressed: () {
               final Map<String, dynamic> product = {
                 "title": _titleValue,
+                "subTitle": _subTitleValue,
                 "description": _description,
                 "price": _priceValue,
                 "image": "assets/images/helal.png"

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './products.dart';
+import '../components/products/products.dart';
 
 class ProductManager extends StatelessWidget {
 //   final Map startingProduct;
@@ -51,8 +51,19 @@ class ProductManager extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(),
-        Expanded(child: Products(products)),
+        Container(
+          child: Text(
+            'Urunler',
+            style: TextStyle(
+              //fontWeight: FontWeight.w800,
+              fontSize: 80.0,
+              fontFamily: 'Monthelo',
+            ),
+          ),
+        ),
+        Expanded(
+          child: Products(products),
+        ),
       ],
     );
   }

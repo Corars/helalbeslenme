@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
 
 import './pages/auth.dart';
 import './pages/products_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // debugPaintSizeEnabled = true; //tasarımları debug modda gösterir oklar genişlikler falan.
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -15,9 +19,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Map<String, dynamic>> _products = [];
-  Map<String, dynamic> _user = {};
-
+  List<Map<String, dynamic>> _products = [
+    {
+      'title': 'Adana Karpuzu',
+      'subTitle': 'Yeşil renkli, içi kırmızı tatlı bir meyve.',
+      'description':
+          'Kansere karşı en etkili maddelerden olan likopen en çok domateste var sanılsa da aslında karpuzda domatesten çok daha fazla likopen vardır. 1776\'da Amerika\'da çıkan ilk yemek kitabında karpuz kabuğu turşusu tarifine yer verilmiştir.',
+      'price': 25.56,
+      'image': 'assets/images/adana_karpuzu.jpg'
+    },
+  ];
+  //Map<String, dynamic> _user = {};
   void _addProduct(Map<String, dynamic> product) {
     setState(() {
       _products.add(product);
@@ -34,6 +46,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        fontFamily: 'Oswald',
         brightness: Brightness.light,
         primaryColor: Colors.blueAccent[100],
         primarySwatch: Colors.deepOrange,
@@ -58,7 +71,12 @@ class _MyAppState extends State<MyApp> {
           final int index = int.parse(pathElements[2]); // "/product/3255"
           return MaterialPageRoute<bool>(
             builder: (BuildContext context) => ProductPage(
-                _products[index]['title'], _products[index]['image']),
+                  _products[index]['title'],
+                  _products[index]['subTitle'],
+                  _products[index]['description'],
+                  _products[index]['price'],
+                  _products[index]['image'],
+                ),
           );
         }
 

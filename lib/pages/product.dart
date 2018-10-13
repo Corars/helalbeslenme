@@ -4,9 +4,13 @@ import 'package:flutter/material.dart';
 
 class ProductPage extends StatelessWidget {
   final String title;
+  final String subTitle;
+  final String description;
+  final double price;
   final String imageUrl;
 
-  ProductPage(this.title, this.imageUrl);
+  ProductPage(
+      this.title, this.subTitle, this.description, this.price, this.imageUrl);
 
   _showWarningdialog(BuildContext context) {
     showDialog(
@@ -14,7 +18,7 @@ class ProductPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Emin misiniz?'),
-          content: Text('Bu işlem geri alınmaaz !'),
+          content: Text('Bu işlem geri alınamaz !'),
           actions: <Widget>[
             FlatButton(
               child: Text('Evet Sil'),
@@ -52,8 +56,39 @@ class ProductPage extends StatelessWidget {
             children: <Widget>[
               Image.asset(imageUrl),
               Container(
-                child: Text(title),
+                child: Text(
+                  title,
+                  style: TextStyle(fontSize: 30.0),
+                ),
                 padding: EdgeInsets.all(10.0),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    subTitle,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  Text(
+                    ' | ',
+                    style: TextStyle(color: Colors.grey, fontSize: 25.0),
+                  ),
+                  Text(
+                    '₺' + price.toString(),
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ],
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 5.0),
+                child: Text(
+                  description,
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontFamily: 'Sans',
+                    fontSize: 20.0,
+                  ),
+                ),
               ),
               Container(
                 child: RaisedButton(

@@ -58,7 +58,7 @@ class _AuthState extends State<AuthPage> {
     );
   }
 
-  _onSubmit() {
+  void _submitForm() {
     print(_emailValue);
     print(_passwordValue);
     Navigator.pushReplacementNamed(context, '/producs');
@@ -77,49 +77,73 @@ class _AuthState extends State<AuthPage> {
         padding: EdgeInsets.all(20.0),
         child: Center(
           child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                _buildEmailField(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                _buildPasswordField(),
-                SwitchListTile(
-                  value:
-                      _acceptTerms, //burası önemli eğer bunu vermezsek tıklayınca durumu değişmiyor.
-                  onChanged: (bool value) {
-                    setState(() {
-                      _acceptTerms = value;
-                    });
-                  },
-                  title: Text('Kullanım şartlarını kabul ederim.'),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                      color: Theme.of(context).accentColor,
-                      textColor: Colors.white,
-                      child: Text('Giriş'),
-                      onPressed: _onSubmit,
-                    ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
-                    RaisedButton(
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      child: Text('Öğrenme'),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/learn');
-                      },
-                    ),
-                  ],
-                ),
-              ],
+            child: Container(
+              width: MediaQuery.of(context).size.width *
+                  0.5, //ekran genişliğine göre alanların genişliği değişsin.
+              child: Column(
+                children: <Widget>[
+                  _buildEmailField(),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  _buildPasswordField(),
+                  SwitchListTile(
+                    value:
+                        _acceptTerms, //burası önemli eğer bunu vermezsek tıklayınca durumu değişmiyor.
+                    onChanged: (bool value) {
+                      setState(() {
+                        _acceptTerms = value;
+                      });
+                    },
+                    title: Text('Kullanım şartlarını kabul ederim.'),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      RaisedButton(
+                        color: Theme.of(context).accentColor,
+                        textColor: Colors.white,
+                        child: Text('Giriş'),
+                        onPressed: _submitForm,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      RaisedButton(
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        child: Text('Öğrenme'),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/learn');
+                        },
+                      ),
+                      GestureDetector(
+                        //özel widget yapmak istenirse kullanılabilir
+                        onTap: _submitForm,
+                        child: Container(
+                          margin: EdgeInsets.all(10.0),
+                          padding: EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                            color: Colors.pink,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(3.0)),
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Text(
+                              'Özel Giriş',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

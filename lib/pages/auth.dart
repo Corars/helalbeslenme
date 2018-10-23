@@ -79,15 +79,31 @@ class _AuthState extends State<AuthPage> {
                 SizedBox(
                   height: 10.0,
                 ),
-                RaisedButton(
-                  color: Theme.of(context).accentColor,
-                  textColor: Colors.white,
-                  child: Text('Giriş'),
-                  onPressed: () {
-                    print(_emailValue);
-                    print(_passwordValue);
-                    Navigator.pushReplacementNamed(context, '/producs');
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      color: Theme.of(context).accentColor,
+                      textColor: Colors.white,
+                      child: Text('Giriş'),
+                      onPressed: () {
+                        print(_emailValue);
+                        print(_passwordValue);
+                        Navigator.pushReplacementNamed(context, '/producs');
+                      },
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    RaisedButton(
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      child: Text('Öğrenme'),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/learn');
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

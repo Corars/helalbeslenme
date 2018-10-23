@@ -16,7 +16,7 @@ class _ProductCreateState extends State<ProductCreatePage> {
   String _subTitleValue;
   String _description;
   double _priceValue;
-  String _imageUrl;
+  //String _imageUrl;
 
   @override
   Widget build(BuildContext context) {

@@ -5,6 +5,7 @@ import './pages/auth.dart';
 import './pages/products_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
+import './pages/learning.dart';
 
 void main() {
   // debugPaintSizeEnabled = true; //tasarımları debug modda gösterir oklar genişlikler falan.
@@ -58,6 +59,7 @@ class _MyAppState extends State<MyApp> {
         '/products': (BuildContext context) => ProductsPage(_products),
         '/admin': (BuildContext context) =>
             ProductsAdminPage(_addProduct, _deleteProduct),
+        '/learn': (BuildContext context) => LearnPage(),
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElements =

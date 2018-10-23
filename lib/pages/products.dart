@@ -9,37 +9,41 @@ class ProductsPage extends StatelessWidget {
 
   ProductsPage(this.products);
 
+  Widget _buildSideDrawer(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          AppBar(
+            automaticallyImplyLeading: false, //başlığın solundaki icon kalkar
+            title: Text('Menü'),
+          ),
+          ListTile(
+            leading: Icon(Icons.playlist_add_check),
+            title: Text('Ürün Yönetimi'),
+            onTap: () {
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => ProductsAdminPage(),
+              //   ),
+              // );
+              Navigator.pushReplacementNamed(context, '/admin');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.power_settings_new),
+            title: Text('Çıkış'),
+            onTap: () => Navigator.pushReplacementNamed(context, '/'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: Column(
-          children: <Widget>[
-            AppBar(
-              automaticallyImplyLeading: false, //başlığın solundaki icon kalkar
-              title: Text('Menü'),
-            ),
-            ListTile(
-              leading: Icon(Icons.playlist_add_check),
-              title: Text('Ürün Yönetimi'),
-              onTap: () {
-                // Navigator.pushReplacement(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (BuildContext context) => ProductsAdminPage(),
-                //   ),
-                // );
-                Navigator.pushReplacementNamed(context, '/admin');
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.power_settings_new),
-              title: Text('Çıkış'),
-              onTap: () => Navigator.pushReplacementNamed(context, '/'),
-            ),
-          ],
-        ),
-      ),
+      drawer: _buildSideDrawer(context),
       appBar: AppBar(
         title: Text('Ürünler'),
         actions: <Widget>[

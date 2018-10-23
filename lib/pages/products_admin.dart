@@ -10,29 +10,32 @@ class ProductsAdminPage extends StatelessWidget {
 
   ProductsAdminPage(this.addProduct, this.deleteProduct);
 
+  Widget _buildSideDrawer(BuildContext context) {
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          AppBar(
+            automaticallyImplyLeading: false, //başlığın solundaki icon kalkar
+            title: Text('Menü'),
+          ),
+          ListTile(
+            leading: Icon(Icons.apps),
+            title: Text('Tüm Ürünler'),
+            onTap: () {
+              Navigator.pushReplacementNamed(context, '/products');
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-          drawer: Drawer(
-            child: Column(
-              children: <Widget>[
-                AppBar(
-                  automaticallyImplyLeading:
-                      false, //başlığın solundaki icon kalkar
-                  title: Text('Menü'),
-                ),
-                ListTile(
-                  leading: Icon(Icons.apps),
-                  title: Text('Tüm Ürünler'),
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/products');
-                  },
-                ),
-              ],
-            ),
-          ),
+          drawer: _buildSideDrawer(context),
           appBar: AppBar(
             title: Text('Ürün Yönetimi'),
             bottom: TabBar(tabs: <Widget>[

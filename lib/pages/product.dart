@@ -39,6 +39,26 @@ class ProductPage extends StatelessWidget {
     );
   }
 
+  Widget _buildAdressPriceRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          subTitle,
+          style: TextStyle(fontSize: 20.0),
+        ),
+        Text(
+          ' | ',
+          style: TextStyle(color: Colors.grey, fontSize: 25.0),
+        ),
+        Text(
+          '₺' + price.toString(),
+          style: TextStyle(fontSize: 20.0),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -62,23 +82,7 @@ class ProductPage extends StatelessWidget {
                 ),
                 padding: EdgeInsets.all(10.0),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    subTitle,
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  Text(
-                    ' | ',
-                    style: TextStyle(color: Colors.grey, fontSize: 25.0),
-                  ),
-                  Text(
-                    '₺' + price.toString(),
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                ],
-              ),
+              _buildAdressPriceRow(),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 5.0),
                 child: Text(

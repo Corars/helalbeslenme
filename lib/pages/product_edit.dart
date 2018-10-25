@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 
-class ProductCreatePage extends StatefulWidget {
+class ProductEditPage extends StatefulWidget {
   final Function addProduct;
+  final Function updateProduct;
+  final Map<String, dynamic> product;
+  final int productIndex;
 
-  ProductCreatePage(this.addProduct);
+  ProductEditPage(
+      {this.addProduct, this.updateProduct, this.product, this.productIndex});
 
   @override
   State<StatefulWidget> createState() {
-    return _ProductCreateState();
+    return _ProductEditState();
   }
 }
 
-class _ProductCreateState extends State<ProductCreatePage> {
-  String _titleValue;
-  String _subTitleValue;
-  String _description;
-  double _priceValue;
-  //String _imageUrl;
+class _ProductEditState extends State<ProductEditPage> {
+  Map<String, dynamic> _formData = {
+    'title': null,
+    'subTitle': null,
+    'description': null,
+    'price': null,
+    'image': 'assets/images/helal.png',
+  };
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildTitleTextField() {
@@ -27,10 +34,9 @@ class _ProductCreateState extends State<ProductCreatePage> {
       validator: (String value) {
         if (value.isEmpty) return 'Ürün başlığı gerekli';
       },
+      initialValue: widget.product == null ? '' : widget.product['title'],
       onSaved: (String value) {
-        setState(() {
-          _titleValue = value;
-        });
+        _formData['title'] = value;
       },
     );
   }
@@ -39,10 +45,9 @@ class _ProductCreateState extends State<ProductCreatePage> {
     return TextFormField(
       autofocus: true,
       decoration: InputDecoration(labelText: 'Product Sub Title'),
+      initialValue: widget.product == null ? '' : widget.product['subTitle'],
       onSaved: (String value) {
-        setState(() {
-          _subTitleValue = value;
-        });
+        _formData['subTitle'] = value;
       },
     );
   }
@@ -56,10 +61,9 @@ class _ProductCreateState extends State<ProductCreatePage> {
           return 'En az 10 karakter olmalı';
         }
       },
+      initialValue: widget.product == null ? '' : widget.product['description'],
       onSaved: (String value) {
-        setState(() {
-          _description = value;
-        });
+        _formData['description'] = value;
       },
     );
   }
@@ -74,10 +78,10 @@ class _ProductCreateState extends State<ProductCreatePage> {
           return 'Sayı giriniz';
         }
       },
+      initialValue:
+          widget.product == null ? '' : widget.product['price'].toString(),
       onSaved: (String value) {
-        setState(() {
-          _priceValue = double.parse(value);
-        });
+        _formData['price'] = double.parse(value);
       },
     );
   }
@@ -87,14 +91,11 @@ class _ProductCreateState extends State<ProductCreatePage> {
       return;
     }
     _formKey.currentState.save();
-    final Map<String, dynamic> product = {
-      "title": _titleValue,
-      "subTitle": _subTitleValue,
-      "description": _description,
-      "price": _priceValue,
-      "image": "assets/images/helal.png"
-    };
-    widget.addProduct(product);
+    if (widget.product == null) {
+      widget.addProduct(_formData);
+    } else {
+      widget.updateProduct(widget.productIndex, _formData);
+    }
     Navigator.pushReplacementNamed(context, '/products');
   }
 
@@ -103,8 +104,7 @@ class _ProductCreateState extends State<ProductCreatePage> {
     final double deviceWidth = MediaQuery.of(context).size.width;
     final double targetWith = deviceWidth > 550.0 ? 500.0 : deviceWidth * 0.95;
     final double targetPadding = deviceWidth - targetWith;
-
-    return GestureDetector(
+    final Widget pageContent = GestureDetector(
       onTap: () {
         FocusScope.of(context)
             .requestFocus(FocusNode()); //klavyeyi kapatmak için
@@ -132,22 +132,18 @@ class _ProductCreateState extends State<ProductCreatePage> {
             ],
           ),
         ),
-
-        // Center(
-        //   child: RaisedButton(
-        //     child: Text('Kaydet'),
-        //     onPressed: () {
-        //       showModalBottomSheet(
-        //           context: context,
-        //           builder: (BuildContext context) {
-        //             return Center(
-        //               child: Text('Ürün Oluştu'),
-        //             );
-        //           });
-        //     },
-        //   ),
-        // ),
       ),
     );
+
+    if (widget.product == null) {
+      return pageContent;
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Edit Product'),
+        ),
+        body: pageContent,
+      );
+    }
   }
 }

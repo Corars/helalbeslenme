@@ -10,9 +10,13 @@ class AuthPage extends StatefulWidget {
 /// bazı alanlarda şu ifade geçiyor -->
 ///
 class _AuthState extends State<AuthPage> {
-  String _emailValue;
-  String _passwordValue;
-  bool _acceptTerms = false;
+  final Map<String, dynamic> _formData = {
+    'email': null,
+    'password': null,
+    'acceptTerms': false,
+  };
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   DecorationImage _buildBackgroundImage() {
     return DecorationImage(
@@ -25,8 +29,8 @@ class _AuthState extends State<AuthPage> {
     );
   }
 
-  TextField _buildEmailField() {
-    return TextField(
+  Widget _buildEmailField() {
+    return TextFormField(
       autofocus: true,
       decoration: InputDecoration(
         labelText: 'E-Mail',
@@ -34,33 +38,58 @@ class _AuthState extends State<AuthPage> {
         fillColor: Colors.white,
       ),
       keyboardType: TextInputType.emailAddress,
-      onChanged: (String value) {
-        setState(() {
-          _emailValue = value;
-        });
+      validator: (String value) {
+        if (!RegExp(
+                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+            .hasMatch(value)) {
+          return 'Geçersiz e-mail';
+        }
+      },
+      onSaved: (String value) {
+        _formData['email'] = value;
       },
     );
   }
 
-  TextField _buildPasswordField() {
-    return TextField(
+  Widget _buildPasswordField() {
+    return TextFormField(
       obscureText: true,
       decoration: InputDecoration(
         labelText: 'Password',
         filled: true,
         fillColor: Colors.white,
       ),
-      onChanged: (String value) {
-        setState(() {
-          _passwordValue = value;
-        });
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Şifre giriniz';
+        }
+      },
+      onSaved: (String value) {
+        _formData['password'] = value;
       },
     );
   }
 
+  Widget _buildAcceptTerms() {
+    return SwitchListTile(
+      value: _formData[
+          'acceptTerms'], //burası önemli eğer bunu vermezsek tıklayınca durumu değişmiyor.
+      onChanged: (bool value) {
+        setState(() {
+          _formData['acceptTerms'] = value;
+        });
+      },
+      title: Text('Kullanım şartlarını kabul ederim.'),
+    );
+  }
+
   void _submitForm() {
-    print(_emailValue);
-    print(_passwordValue);
+    if (!_formKey.currentState.validate() && _formData['acceptTerms']) {
+      return;
+    }
+    _formKey.currentState.save();
+    //print(_emailValue);
+    //print(_passwordValue);
     Navigator.pushReplacementNamed(context, '/producs');
   }
 
@@ -80,69 +109,63 @@ class _AuthState extends State<AuthPage> {
             child: Container(
               width: MediaQuery.of(context).size.width *
                   0.5, //ekran genişliğine göre alanların genişliği değişsin.
-              child: Column(
-                children: <Widget>[
-                  _buildEmailField(),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  _buildPasswordField(),
-                  SwitchListTile(
-                    value:
-                        _acceptTerms, //burası önemli eğer bunu vermezsek tıklayınca durumu değişmiyor.
-                    onChanged: (bool value) {
-                      setState(() {
-                        _acceptTerms = value;
-                      });
-                    },
-                    title: Text('Kullanım şartlarını kabul ederim.'),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      RaisedButton(
-                        color: Theme.of(context).accentColor,
-                        textColor: Colors.white,
-                        child: Text('Giriş'),
-                        onPressed: _submitForm,
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      RaisedButton(
-                        color: Colors.red,
-                        textColor: Colors.white,
-                        child: Text('Öğrenme'),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/learn');
-                        },
-                      ),
-                      GestureDetector(
-                        //özel widget yapmak istenirse kullanılabilir
-                        onTap: _submitForm,
-                        child: Container(
-                          margin: EdgeInsets.all(10.0),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.pink,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(3.0)),
-                          ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    _buildEmailField(),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    _buildPasswordField(),
+                    _buildAcceptTerms(),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Theme.of(context).accentColor,
+                          textColor: Colors.white,
+                          child: Text('Giriş'),
+                          onPressed: _submitForm,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        RaisedButton(
+                          color: Colors.red,
+                          textColor: Colors.white,
+                          child: Text('Öğrenme'),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/learn');
+                          },
+                        ),
+                        GestureDetector(
+                          //özel widget yapmak istenirse kullanılabilir
+                          onTap: _submitForm,
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 10.0),
-                            child: Text(
-                              'Özel Giriş',
-                              style: TextStyle(color: Colors.white),
+                            margin: EdgeInsets.all(10.0),
+                            padding: EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Colors.pink,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(3.0)),
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(
+                                'Özel Giriş',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
